@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 9</title>
+
+  <style>
+    button {
+      margin: 3px;
+    }
+
+    input[type="number"] {
+      width: 60px;
+    }
+
+    output {
+      border: 1px solid gray;
+      display: block;
+      height: 18px;
+      margin-top: 5px;
+      padding: 5px;
+      width: 240px;
+    }
+  </style>
+</head>
+<body>
+  <fieldset>
+    <legend>Error Calculator</legend>
+    <input type="number" name="first-num" id="first-num" />
+    <select name="operator" id="operator">
+      <option>+</option>
+      <option>-</option>
+      <option>*</option>
+      <option>/</option>
+    </select>
+    <input type="number" name="second-num" id="second-num" />
+    <button id="calculate">Calculate</button>
+    <br />
+    <output></output>
+  </fieldset>
+
+  <section id="error-btns">
+    <button>Console Log Demo</button>
+    <button>Console Error Demo</button>
+    <button>Console Dir</button>
+    <button>Console dirxml</button>
+    <button>Console Group Start</button>
+    <button>Console Group End</button>
+    <button>Console Table</button>
+    <button>Start Timer</button>
+    <button>End Timer</button>
+    <button>Console Trace</button>
+    <button>Trigger a Global Error</button>
+  </section>
+
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+  		window.TrackJS && TrackJS.install({ 
+    	token: "f18faba7e2e44e5e954d91851220fd49"});
+		TrackJS.track('Testing TrackJS!');                
+	</script>
+
+
+  <script>
+    let calculateBtn = document.querySelector('#calculate');
+    calculateBtn.addEventListener('click', () => {
+      let output = document.querySelector('output');
+      let firstNum = document.querySelector('#first-num').value;
+      let secondNum = document.querySelector('#second-num').value;
+      let operator = document.querySelector('#operator').value;
+      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+    });
+
+    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+    // TODO - Make buttons functional
+	let logDemoBtn = errorBtns[0];
+	logDemoBtn.addEventListener('click', () => {
+		console.log("https://youtu.be/dQw4w9WgXcQ");
+	})
+	let errDemoBtn = errorBtns[1];
+	errDemoBtn.addEventListener('click', () => {
+		console.error("Error: you clicked the Console Error Demo Button");
+	})
+	let dirBtn = errorBtns[2];
+	dirBtn.addEventListener('click', () => {
+		console.dir(document.location);
+	})
+	let dirXmlBtn = errorBtns[3];
+	dirXmlBtn.addEventListener('click', () => {
+		console.dirxml(document.all);
+	})
+	let groupStartBtn = errorBtns[4];
+	groupStartBtn.addEventListener('click', () => {
+		console.group();
+		console.log('your are now in a group');
+	})
+	let groupEndBtn = errorBtns[5];
+	groupEndBtn.addEventListener('click', () => {
+		console.log('you are now leaving a group');
+		console.groupEnd();
+	})
+	let tableBtn = errorBtns[6];
+	function favSong(songName, rating){
+		this.name = songName,
+		this.rating = rating
+	}
+	var rick = new favSong("Never Gonna Give You Up", "10/10");
+	var kast = new favSong("Hey Ya!", "9/10");
+	var gotye = new favSong("Somebody That I Used To Know", "8/10");
+	tableBtn.addEventListener('click', () => {
+		console.table([rick, kast, gotye]);
+	})
+	let startTimerBtn = errorBtns[7];
+	startTimerBtn.addEventListener('click', () => {
+		console.log("timer started");
+		console.time();
+	})
+	let endTimerBtn = errorBtns[8];
+	endTimerBtn.addEventListener('click', () => {
+		console.log("timer ended");
+		console.timeEnd();
+	})
+	let traceBtn = errorBtns[9];
+	traceBtn.addEventListener('click', () => {
+		console.trace();
+	})
+	let globalErrBtn = errorBtns[10];
+	globalErrBtn.addEventListener('click', () => {
+		console.error('you have an error througout your function so now you have a global err');
+	})
+
+	function bugFreeFunct(arr) {
+		if (arr.length != 3) {
+			throw new ArrayLengthError("the array length you gave was " + arr.length + ", but a length of 3 is needed");
+		} else {
+			for(let i = 0; i < 2; i++){
+				console.log(arr[i]);
+			}
+		}
+	}
+
+	class ArrayLengthError extends Error {
+  		constructor(message) {
+    		super(message);
+    		this.name = "ArrayLengthError";
+  		}
+	}
+
+	try{
+		let arr = ['num1', 'num2'];
+		bugFreeFunct(arr);
+	} catch(error){
+		//console.error(error);
+		window.onerror = function(event) { 
+			console.log('global err');
+		}
+	}
+	
+	let arr = ['num1', 'num2', 'num3', 'num4'];
+	bugFreeFunct(arr);
+	
+
+  </script>
+</body>
+</html>
